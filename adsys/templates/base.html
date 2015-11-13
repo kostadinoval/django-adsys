@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<!-- 
+	
+	This page uses the jQuery JavaScript library and Twitter Bootstrap.
+	All other template pages extend this and so they too use these modules.
+	
+	The navigation bar is based on the Bootstrap static navbar example available at:
+	http://getbootstrap.com/examples/navbar-static-top/
+	
+	-->
+	<head>
+		<title>AdSys - {% block title %} {% endblock %}</title>
+		
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		
+		<!-- BOOTSTRAP CDN -->
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		
+	</head>
+
+	<body>
+	
+	<!-- Static navbar -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'about.views.about' %}">AdSys</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li id="about"><a href="{% url 'about.views.about' %}">About</a></li>
+			{% if user.is_authenticated %}
+			<li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Adverts<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{% url 'advert.views.create' %}">Create</a></li>
+                  <li><a href="{% url 'advert.views.list' %}">View</a></li>
+                </ul>
+              </li>
+			  <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">AdSpaces<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{% url 'adspace.views.create' %}">Create</a></li>
+                  <li><a href="{% url 'adspace.views.list' %}">View</a></li>
+                </ul>
+              </li>
+			  <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Domains<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{% url 'domain.views.add' %}">Add domain</a></li>
+                  <li><a href="{% url 'domain.views.list' %}">View domains</a></li>
+                </ul>
+              </li>
+			  <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ user.username }}<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="/accounts/password/change">Change password</a></li>
+                </ul>
+              </li>
+			{% endif %}
+			<li id="faq"><a href="{% url 'about.views.faq' %}">FAQ</a></li>
+			<li id="feedback"><a href="#">Feedback</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+			{% if user.is_authenticated %}
+				<li><a href="{% url 'auth_logout' %}">Logout</a></li>
+			{% else %}
+				<li id="login"><a href="{% url 'auth_login' %}">Login</a></li>
+				<li id="register"><a href="{% url 'registration_register' %}">Register</a></li>
+			{% endif %}
+            </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+	
+	{% block body %} {% endblock %}
+	{% block script %} {% endblock %}
+	</body>
+	
+</html>

@@ -1,0 +1,7 @@
+/Include/
+/Lib/
+/Scripts/
+pip-selfcheck.json
+/adsys/adsys/settings.py
+*.pyc
+/adsys/static/

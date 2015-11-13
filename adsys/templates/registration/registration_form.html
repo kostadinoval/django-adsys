@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %} Registration {% endblock %}
+
+{% block script %}
+<script>
+// Removes the class 'active' from an element and adds it to the current page navigation link
+// Navigation bar highlights the current page
+var active = document.getElementsByClassName("active");
+active.className = "";
+var id = document.getElementById("register");
+id.className = "active";
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row">
+<div class="col-md-7">
+<div class="jumbotron">
+		<h1>Register Here</h1>
+		<hr/>
+        <form class="form-signin" method="post" action="">	
+            {% csrf_token %}
+            
+			{% if form.non_field_errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ form.non_field_errors | striptags }}
+				</div>
+			{% endif %}
+			
+			{% if form.username.errors %}
+			<br/>
+			<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span>
+				{{ form.username.errors | striptags }}
+			</div>
+			{% endif %}
+			<p>
+				{{ form.username.label_tag }}
+				{{ form.username }}
+			</p>
+			
+			{% if form.email.errors %}
+			<br/>
+			<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span>
+				{{ form.email.errors | striptags }}
+			</div>
+			{% endif %}
+			<p>
+				{{ form.email.label_tag }}
+				{{ form.email }}
+			</p>
+			
+			{% if form.password1.errors %}
+			<br/>
+			<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span>
+				{{ form.password1.errors | striptags }}
+			</div>
+			{% endif %}
+			<p>
+				{{ form.password1.label_tag }}
+				{{ form.password1 }}
+			</p>
+			
+			{% if form.password2.errors %}
+			<br/>
+			<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span>
+				{{ form.password2.errors | striptags }}
+			</div>
+			{% endif %}
+			<p>
+				{{ form.password2.label_tag }}
+				{{ form.password2 }}
+			</p>
+			
+                <input class="btn btn-lg btn-success" type="submit" value="Submit" />
+        </form>
+</div>
+</div>
+<div class="col-md-5">
+<div class="jumbotron">
+        <h1>About</h1>
+		<hr/>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %} {{advert.title}} {% endblock %}
+
+{% block script %} 
+
+<script>
+// In order to prevent adverts from being deleted accidentally a confirmaiton box is presented whenever the delete button is pressed
+$("#advert_delete_form").submit(function(e){
+	return confirm('Are you sure you want to delete the advert "{{ advert.title }}"?');
+});
+
+// Redirect to the edit page whenever the edit button is clicked
+$("#edit").on("click", function(e){
+	location.href = "/advert/edit/"+{{advert.id}}+"/"; 
+});
+</script>
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	<div class="jumbotron">
+			
+			<h1><b>Advert Title:</b> {{advert.title}}</h1>
+			<hr/>
+			<h2><b>Advert Description:</b></h2><p>{{advert.description}}</p>
+			<h2><b>Advert URL:</b></h2><p><a href="{{advert.destination_url}}">{{advert.destination_url}}</a></p>
+			<h2><b>Advert Keywords:</b></h2>
+			<p><ul style="list-style:none">
+			{% for keyword in keywords_list %}
+				<li>{{keyword.keyword}}</li>
+			{% endfor %}
+			</ul></p>
+			<h2><b>Created on:</b></h2> <p>{{advert.datetime_posted | date}}</p>
+			<hr/>
+			<div class="row">
+				<div class="col-md-6">
+					<button id="edit" class="btn btn-lg btn-primary" type="button">Edit</button>
+				</div>
+				<div class="col-md-6">
+					<form id="advert_delete_form" style="float:right;" method="POST" action="/advert/delete/{{advert.id}}/">
+						{% csrf_token %}
+						{{ deleteAdvertForm }}
+					<button id="delete" class="btn btn-lg btn-primary" type="submit">Delete</button>
+					</form>
+				</div>
+			</div>
+	</div>
+</div>
+{% endblock %}

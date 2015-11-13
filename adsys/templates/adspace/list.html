@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} My AdSpaces {% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="jumbotron">
+		{% if user.is_authenticated %}
+			<h1>{{ user.username }}'s adspaces!</h1>
+			<hr/>
+		{% endif %}
+		{% if adspaceList %}
+			<ul style="list-style:none">
+				{% for adspace in adspaceList %}
+				<li><b><a href="/adspace/view/{{adspace.pk}}/">{{adspace.title}}</a></b> 
+				</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<strong>There are no AdSpaces</strong>
+		{% endif %}
+</div>
+</div>
+{% endblock %}

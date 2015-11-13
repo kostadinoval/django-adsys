@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} My Domains {% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="jumbotron">
+		{% if user.is_authenticated %}
+			<h1>{{ user.username }}'s domains!</h1>
+			<hr/>
+		{% endif %}
+		{% if domain_list %}
+			<ul style="list-style:none">
+				{% for domain in domain_list %}
+				<li><b>{{domain.domain}}</b> 
+				</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<strong>There are no Domains</strong>
+		{% endif %}
+</div>
+</div>
+{% endblock %}

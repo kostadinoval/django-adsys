@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+
+{% block script %}
+<script>
+// Removes the class 'active' from an element and adds it to the current page navigation link
+// Navigation bar highlights the current page
+var active = document.getElementsByClassName("active");
+active.className = "";
+var id = document.getElementById("about");
+id.className = "active";
+</script>
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="jumbotron">
+		Under construction
+		<a href="{% url 'testpage.views.page' %}">Test Page</a>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %} Create AdSpace {% endblock %}
+{% block script %} 
+
+<script>
+// When the document is ready modify the adspace preview box to reflect form defaults
+$(document).ready(function(){
+	$("#adspace_preview").css("width","320px");
+	$("#adspace_preview").css("height","400px");
+	$("#adspace_preview").css("border-style","solid");
+	$("#adspace_preview").css("border-color",$('#id_adspace_border_colour').find("option:selected").val());
+})
+
+// Change the adspace preview box whenever the user selects a different adspace size
+$('input:radio[name="adspace_size"]').change(
+    function(){
+        if ($(this).is(':checked') && $(this).val() == 1) {
+			$("#adspace_preview").css("width","320px");
+			$("#adspace_preview").css("height","400px");
+			$("#adspace_preview").css("border-style","solid");
+			$("#adspace_preview").css("border-color",$('#id_adspace_border_colour').find("option:selected").val());
+        }
+		else if ($(this).is(':checked') && $(this).val() == 2){
+			$("#adspace_preview").css("width","430px");
+			$("#adspace_preview").css("height","300px");
+			$("#adspace_preview").css("border-style","solid");
+			$("#adspace_preview").css("border-color",$('#id_adspace_border_colour').find("option:selected").val());
+		}
+		else if ($(this).is(':checked') && $(this).val() == 3){
+			$("#adspace_preview").css("width","250px");
+			$("#adspace_preview").css("height","515px");
+			$("#adspace_preview").css("border-style","solid");
+			$("#adspace_preview").css("border-color",$('#id_adspace_border_colour').find("option:selected").val());
+		}
+    });
+
+// Update the adspace border colour whenever the user selects a new colour
+$('#id_adspace_border_colour').change(
+	function(){
+		$("#adspace_preview").css("border-style","solid");
+		$("#adspace_preview").css("border-color",$('#id_adspace_border_colour').find("option:selected").val());
+});
+
+// AJAX call to escape user entered adspace title.
+// After being escaped the title is shown in the adspace preview section
+$('#id_title').keyup(function(){
+	$.get('{% url "advert.views.getEscaped" %}', {"data": $(this).val()}, function(data){
+		$("#title").text(data["data"]);
+	});
+});
+</script>
+
+{% endblock %}
+{% block body %}
+<div class="container">
+<div class="row">
+<div class="col-md-6">
+<div class="jumbotron">
+        <h1>Create AdSpace</h1>
+		<hr/>
+        <form id="adspace_form" method="post" action="{% url 'adspace.views.create' %}">
+			
+            {% csrf_token %}
+            {% if adspaceForm.non_field_errors %}
+					<br/>
+					<div class="alert alert-danger" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Error:</span>
+						{{ adspaceForm.non_field_errors | striptags}}
+					</div>
+			{% endif %}
+			
+			{% if adspaceForm.title.errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ adspaceForm.title.errors | striptags }}
+				</div>
+			{% endif %}
+			<p>
+				{{ adspaceForm.title.label_tag }}
+				{{ adspaceForm.title }}
+			</p>
+			
+			<p>
+				{{ adspaceForm.adspace_size.label_tag }}
+				{{ adspaceForm.adspace_size }}
+			</p>
+			
+			<p>
+				{{ adspaceForm.adspace_border_colour.label_tag }}
+				{{ adspaceForm.adspace_border_colour }}
+			</p>
+			
+            <input class="btn btn-lg btn-success" type="submit" name="submit" value="Create AdSpace" />
+			<input style="float:right;" class="btn btn-lg btn-warning" type="reset" name="reset" value="Reset" />
+        </form>
+</div>
+</div>
+<div class="col-md-6">
+<div class="jumbotron">
+		
+		<h1>Preview</h1>
+		<hr/>
+		<p id="title"></p>
+        <div style="text-align:justify;" id="adspace_preview"><p style="font-size:24px; color:darkGreen; font-weight:bold; margin:20px;">Example of a long advert title to appear here Example of a long advert title to!</p><p style="font-size:19px; margin:20px;">A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here. A lot of text here..</p><a href="#"><p style="font-size:19px; margin:20px;">http://www.example.com</p></a></div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

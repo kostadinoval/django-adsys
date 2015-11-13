@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %} Login {% endblock %}
+
+{% block script %}
+<script>
+// Removes the class 'active' from an element and adds it to the current page navigation link
+// Navigation bar highlights the current page
+var active = document.getElementsByClassName("active");
+active.className = "";
+var id = document.getElementById("login");
+id.className = "active";
+</script>
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row">
+<div class="col-md-7">
+<div class="jumbotron">
+	<h1>Please sign in</h1>
+	<hr/>
+    <form class="form-signin" method="post" action="">
+            {% csrf_token %}
+            
+			{% if form.non_field_errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ form.non_field_errors | striptags }}
+				</div>
+			{% endif %}
+			
+			{% if form.username.errors %}
+			<br/>
+			<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span>
+				{{ form.username.errors | striptags }}
+			</div>
+			{% endif %}
+			<p>
+				{{ form.username.label_tag }}
+				{{ form.username }}
+			</p>
+			
+			{% if form.password.errors %}
+			<br/>
+			<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span>
+				{{ form.password.errors | striptags }}
+			</div>
+			{% endif %}
+			<p>
+				{{ form.password.label_tag }}
+				{{ form.password }}
+			</p>
+			
+            <input class="btn btn-lg btn-primary" type="submit" value="Log in" />
+            <input type="hidden" name="next" value="{{ next }}" />
+            </form>
+	<hr/>
+    <p>Not a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

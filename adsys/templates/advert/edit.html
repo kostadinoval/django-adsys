@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block title %} Create advert {% endblock %}
+
+{% block script %} 
+
+<script>
+// Event handler functions for the four form elements. They escape the user input through an AJAX call to the server and then display it in the advert preview section
+$('#id_title').keyup(function(){
+	$.get('{% url "advert.views.getEscaped" %}', {"data": $(this).val()}, function(data){
+        $("#title").text(data["data"]);
+	});
+});
+
+$('#id_description').keyup(function(){
+	$.get('/advert/getEscaped', {"data": $(this).val()}, function(data){
+        $("#description").text(data["data"]);
+	});
+});
+
+$('#id_destination_url').keyup(function(){
+	$.get('/advert/getEscaped', {"data": $(this).val()}, function(data){
+        $("#destination_url").html('<a href="' + data["data"] + '">' + data["data"] + '</a>');
+	});
+});
+
+$('#id_keyword').keyup(function(){
+	$.get('/advert/getEscaped', {"data": $(this).val()}, function(data){
+        $("#keywords").text(data["data"]);
+	});
+});
+
+</script>
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row">
+<div class="col-md-6">
+<div class="jumbotron">
+        <h1>Edit Advert</h1>
+		<hr/>
+        <form id="category_form" method="post" action="/advert/edit/{{advert.id}}/">
+			{% csrf_token %}
+			{% if advertForm.non_field_errors or keywordForm.non_field_errors %}
+					<br/>
+					<div class="alert alert-danger" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Error:</span>
+						{{ advertForm.non_field_errors | striptags}}
+						{{ keywordForm.non_field_errors | striptags }}
+					</div>
+			{% endif %}
+			{% if advertForm.title.errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ advertForm.title.errors | striptags }}
+				</div>
+			{% endif %}
+			<p>
+				{{ advertForm.title.label_tag }}
+				{{ advertForm.title }}
+			</p>
+			
+			{% if advertForm.description.errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ advertForm.description.errors | striptags }}
+				</div>
+			{% endif %}
+			<p>
+				{{ advertForm.description.label_tag }}
+				{{ advertForm.description }}
+			</p>
+				
+			{% if advertForm.destination_url.errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ advertForm.destination_url.errors | striptags }}	
+				</div>
+			{% endif %}
+			<p>
+				{{ advertForm.destination_url.label_tag }}
+				{{ advertForm.destination_url }}
+			</p>
+			
+			{% if keywordForm.keyword.errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span>
+					{{ keywordForm.keyword.errors | striptags }}
+				</div>
+			{% endif %}
+			<p>
+				{{ keywordForm.keyword.label_tag }}
+				{{ keywordForm.keyword }}
+			</p>
+			
+            <input class="btn btn-lg btn-success" type="submit" name="submit" value="Save" />
+			<input style="float:right" class="btn btn-lg btn-warning" type="reset" name="reset" value="Reset" />
+        </form>
+</div>
+</div>
+<div class="col-md-6">
+<div class="jumbotron">
+        <h1>Advert preview</h1>
+		<hr/>
+		<p id="title">{{advert.title}}</p>
+		<p id="description">{{advert.description}}</p>
+		<p id="destination_url"><a href="{{advert.destination_url}}">{{advert.destination_url}}</a></p>
+		<p id="keywords">{{keywords}}</p>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

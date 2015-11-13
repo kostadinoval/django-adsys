@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %} Feedback {% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row">
+<div class="col-md-7">
+<div class="jumbotron">
+        <h1>Send Feedback</h1>
+		<hr/>
+        <form id="category_form" method="post" action="{% url 'feedback.views.post' %}">
+
+            {% csrf_token %}
+			
+			{% if feedbackForm.non_field_errors %}
+					<br/>
+					<div class="alert alert-danger" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Error:</span>
+						{{ feedbackForm.non_field_errors | striptags}}
+					</div>
+			{% endif %}
+			
+            {% if feedbackForm.email.errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ feedbackForm.email.errors | striptags }}
+				</div>
+			{% endif %}
+			<p>
+				{{ feedbackForm.email.label_tag }}
+				{{ feedbackForm.email }}
+			</p>
+			
+			{% if feedbackForm.type.errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ feedbackForm.type.errors | striptags }}
+				</div>
+			{% endif %}
+			<p>
+				{{ feedbackForm.type.label_tag }}
+				{{ feedbackForm.type }}
+			</p>
+			
+			{% if feedbackForm.comment.errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ feedbackForm.comment.errors | striptags }}
+				</div>
+			{% endif %}
+			<p>
+				{{ feedbackForm.comment.label_tag }}
+				{{ feedbackForm.comment }}
+			</p>
+            <input class="btn btn-lg btn-success" type="submit" name="submit" value="Send" />
+			<input style="float:right;" class="btn btn-lg btn-warning" type="reset" name="reset" value="Reset" />
+        </form>
+</div>
+</div>
+<div class="col-md-5">
+<div class="jumbotron">
+        <h2>About</h2>
+		<hr/>
+        <p>Use the form opposite to send general feedback, suggestions and improvements as well as any errors or bugs you encounter.</p>
+		<p><b>You will not receive unsolicited emails on the email you provide.</b> Emails are required for contact purposes only.</p>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %} Add domain {% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+<div class="jumbotron">
+        <h1>Add domain</h1>
+		<hr/>
+        <form id="category_form" method="post" action="{% url 'domain.views.add' %}">
+
+            {% csrf_token %}
+			
+			{% if domainForm.non_field_errors %}
+					<br/>
+					<div class="alert alert-danger" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Error:</span>
+						{{ domainForm.non_field_errors | striptags}}
+					</div>
+			{% endif %}
+			
+            {% if domainForm.domain.errors %}
+				<br/>
+				<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+					{{ domainForm.domain.errors | striptags }}
+				</div>
+			{% endif %}
+			<p>
+				{{ domainForm.domain.label_tag }}
+				{{ domainForm.domain }}
+			</p>
+
+            <input class="btn btn-lg btn-success" type="submit" name="submit" value="Add" />
+        </form>
+</div>
+</div>
+<div class="col-md-4">
+<div class="jumbotron">
+        <h2>About</h2>
+		<hr/>
+        <p>All domains must start with <i><b>http://...</b></i> or <i><b>https://...</b></i></p>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

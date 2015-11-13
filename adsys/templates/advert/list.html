@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} My Adverts {% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="jumbotron">
+		{% if user.is_authenticated %}
+			<h1>{{ user.username }}'s adverts!</h1>
+			<hr/>
+		{% endif %}
+		{% if adverts %}
+			<ul style="list-style:none">
+				{% for advert in adverts %}
+				<li><b><a href="/advert/view/{{advert.pk}}/">{{advert.title}}</a></b> 
+				</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<strong>There are no adverts</strong>
+		{% endif %}
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Page C {% endblock %}
+{% block body %}
+
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="jumbotron">
+	<h1>Page C</h1>
+	<a href="{% url 'testpage.views.pageA' %}">Page A</a>
+	<div><div>
+    <p>pokemon coffee</p>
+	</div></div>
+	<a href="{% url 'testpage.views.pageB' %}">Page B</a>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

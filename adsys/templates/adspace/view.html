@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %} {{adspace.title}} {% endblock %}
+
+{% block script %} 
+
+<script>
+// Prevent users from accidentally deleting adspaces by providing a confirmation box.
+$("#adspace_delete_form").submit(function(e){
+	return confirm('Are you sure you want to delete the adspace "{{ adspace.title }}"?');
+});
+</script>
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	<div class="jumbotron">
+			<h1><b>AdSpace Title:</b> {{adspace.title}}</h1>
+			<hr/>
+			<h2><b>Width:</b></h2> <p>{{adspace.width}}px</p>
+			<h2><b>Height:</b></h2> <p>{{adspace.height}}px</p>
+			<h2><b>Border colour:</b></h2> <p>{{adspace.border_colour}}</p>
+			<h2><b>AdSpace code:</b></h2> <p>{{adspace.adspace_code}}</p>
+			<h2><b>Created on:</b></h2> <p>{{adspace.datetime_posted | date}}</p>
+			<hr/>
+			<div class="row">
+					<div class="col-md-12">
+						<form id="adspace_delete_form" style="float:right;" method="POST" action="/adspace/delete/{{adspace.pk}}/">
+							{% csrf_token %}
+							{{ deleteAdSpaceForm }}
+							<button id="delete" class="btn btn-lg btn-primary" type="submit">Delete</button>
+						</form>
+					</div>
+			</div>
+	</div>
+</div>
+
+{% endblock %}
